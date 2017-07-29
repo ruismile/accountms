@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hanrui.android.accountms.AddOutaccount"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="新增支出"
+        android:textSize="40sp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvOutMoney"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:text="金  额："
+            android:textSize="25sp"
+            />
+
+        <EditText
+            android:id="@+id/txtOutMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/tvOutMoney"
+            android:inputType="numberDecimal"
+            android:hint="0.00"
+            android:background="@drawable/edit_bg"
+            android:layout_alignBaseline="@id/tvOutMoney"
+            android:maxLength="9"/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOutMoney"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="时  间："
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/btn_Time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOutMoney"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@id/tvTime"
+            android:background="@drawable/yellow_button"
+            />
+
+        <TextView
+            android:id="@+id/tvOutType"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTime"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="类  别："
+            android:textSize="25sp"/>
+<!--
+        <Spinner
+            android:id="@+id/spType"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@+id/tvTime"
+            android:layout_marginRight="8dp"
+            android:entries="@array/outtype"
+            android:layout_toRightOf="@id/tvOutType"
+            android:layout_marginTop="8dp"
+            />
+            -->
+        <TextView
+            android:id="@+id/txtOutType"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@id/tvOutType"
+            android:layout_below="@id/tvTime"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:layout_alignBaseline="@id/tvOutType"
+            android:background="@drawable/edit_bg"/>
+        
+        <TextView
+            android:id="@+id/tvOutAddress"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="地  点:"
+            android:textSize="25sp"
+            android:layout_below="@id/tvOutType"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            />
+        <EditText
+            android:id="@+id/txtOutAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvOutAddress"
+            android:layout_below="@id/tvOutType"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/edit_bg"
+            android:layout_alignBaseline="@id/tvOutAddress"/>
+
+        <TextView
+            android:id="@+id/tvOutMark"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOutAddress"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="备  注："
+            android:textSize="25sp"
+            />
+
+        <EditText
+            android:id="@+id/txtOutMark"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/tvOutAddress"
+            android:gravity="top"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/tvOutMark"
+            android:background="@drawable/edit_bg"
+            android:layout_alignBaseline="@id/tvOutMark"
+            />
+
+        <Button
+            android:id="@+id/btn_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/txtOutMark"
+            android:text="取消"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/yellow_button"
+            style="@style/btn_style"/>
+
+        <Button
+            android:id="@+id/btn_Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtOutMark"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/btn_Cancel"
+            android:layout_marginTop="8dp"
+            android:text="保存"
+            android:background="@drawable/yellow_button"
+            style="@style/btn_style"
+            />
+    </RelativeLayout>
+</LinearLayout>
