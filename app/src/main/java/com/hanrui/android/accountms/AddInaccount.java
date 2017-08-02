@@ -28,9 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.litepal.crud.DataSupport;
+
 import java.util.Date;
+import java.util.List;
 
 import model.Inaccount;
+import model.User;
 
 
 public class AddInaccount extends AppCompatActivity {
@@ -48,6 +52,10 @@ public class AddInaccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_inaccount);
+
+        //获取用户名
+        Intent intent=getIntent();
+        final String userName=intent.getStringExtra("UserName");
         
         txtInMoney=(EditText)findViewById(R.id.txtInMoney);
         btnTime=(Button)findViewById(R.id.btn_Time);
@@ -92,6 +100,19 @@ public class AddInaccount extends AppCompatActivity {
                         inaccount.setMark(txtInMark.getText().toString());
                         inaccount.save();
 
+                        //找到用户
+                        List<User> mUser= DataSupport.findAll(User.class);
+                        for(int i=0;i<mUser.size();i++){
+                            if(userName.equals(mUser.get(i).getUser_name())){
+                                int id=mUser.get(i).get_id();
+                                //查询用户
+                                User users=DataSupport.find(User.class,id,true);
+                                List<Inaccount>inaccounts=users.getInaccountList();
+                                inaccounts.add(inaccount);
+                                users.save();
+                            }
+                        }
+                        
                         Toast.makeText(AddInaccount.this, "数据添加成功！", Toast.LENGTH_SHORT).show();
 
                         finish();

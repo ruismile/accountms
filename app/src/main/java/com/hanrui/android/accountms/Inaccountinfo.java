@@ -26,6 +26,8 @@ import java.util.Set;
 import adapter.InfoAdapter;
 import model.Inaccount;
 import model.Info;
+import model.Outaccount;
+import model.User;
 
 public class Inaccountinfo extends AppCompatActivity {
 
@@ -41,21 +43,25 @@ public class Inaccountinfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inaccountinfo);
+
+        //获取用户名
+        Intent intent=getIntent();
+        final String userName=intent.getStringExtra("UserName");
         
         lvinfo=(ListView)findViewById(R.id.lvinaccountinfo);  //获取布局文件中的ListView组件
         
-        ShowInfo();   //调用自定义方法显示收入信息
+        ShowInfo(userName);   //调用自定义方法显示收入信息
         
         //为ListView添加事件监听
         lvinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //取数据的id
-                String strid=String.valueOf(mMap.get(position+1));
-                
+                String inaccountId=String.valueOf(mMap.get(position+1));
+                String strid=String.valueOf(position);
                 Intent intent=new Intent(Inaccountinfo.this,InfoManage.class);
                 Bundle bundle=new Bundle();
-                bundle.putStringArray(FLAG,new String[]{strid,strType});
+                bundle.putStringArray(FLAG,new String[]{strid,strType,userName,inaccountId});
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -63,22 +69,32 @@ public class Inaccountinfo extends AppCompatActivity {
     }
     
     //用来根据管理类型显示相应信息
-    private void ShowInfo(){
+    private void ShowInfo(String userName){
         strType="btnininfo"; //为strType变量赋值
         mInfoList.clear();
-        List<Inaccount>inaccounts= DataSupport.findAll(Inaccount.class);//查询表中数据
-        int i=1;
-        for(Inaccount inaccount:inaccounts){
-            Double money=inaccount.getMoney();
-            DecimalFormat format = new DecimalFormat("#0.000");
-            String strMoney=format.format(money);
-            
-            Info info=new Info(i+"|"+inaccount.getType()+" "+
-                    strMoney+"元   "+
-                    inaccount.getTime(),R.drawable.right);
-            mInfoList.add(info);
-            mMap.put(i,inaccount.get_id());
-            i++;
+        //找到用户
+        List<User>mUser= DataSupport.findAll(User.class);
+        for(int i=0;i<mUser.size();i++){
+            if(userName.equals(mUser.get(i).getUser_name())){
+                int id=mUser.get(i).get_id();
+                //查询用户
+                User users=DataSupport.find(User.class,id,true);
+                List<Inaccount>inaccounts=users.getInaccountList();
+                if(inaccounts.size()!=0){
+                    int j=1;
+                    for(Inaccount inaccount:inaccounts){
+                        Double money=inaccount.getMoney();
+                        DecimalFormat format = new DecimalFormat("#0.000");
+                        String strMoney=format.format(money);
+                        Info info=new Info(j+"|"+inaccount.getType()+" "+
+                                strMoney+"元   "+
+                                inaccount.getTime(),R.drawable.right);
+                        mInfoList.add(info);
+                        mMap.put(j,inaccount.get_id());
+                        j++;
+                    }
+                }
+            }
         }
         //使用字符串数组初始化ArrayAdapter对象
         InfoAdapter adapter=new InfoAdapter(Inaccountinfo.this,R.layout.inout_item,mInfoList);
@@ -88,6 +104,15 @@ public class Inaccountinfo extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        ShowInfo();
+        //获取用户名
+        Intent intent=getIntent();
+        String userName=intent.getStringExtra("UserName");
+        ShowInfo(userName);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 }

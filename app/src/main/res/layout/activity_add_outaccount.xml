@@ -113,6 +113,7 @@
             android:layout_toRightOf="@id/tvOutAddress"
             android:layout_below="@id/tvOutType"
             android:layout_marginRight="8dp"
+            android:maxLines="1"
             android:background="@drawable/edit_bg"
             android:layout_alignBaseline="@id/tvOutAddress"/>
 

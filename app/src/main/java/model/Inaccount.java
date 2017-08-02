@@ -15,12 +15,15 @@ public class Inaccount extends DataSupport {
     private String type;    //类别
     private String handler; // 付款方
     private String mark;    //备注
+    
+    private User mUser;
 
     public Inaccount(){
         super();
     }
 
-    public Inaccount(int _id,double money,String time,String type,String handler,String mark){
+    public Inaccount(int _id,double money,String time,String type,
+                     String handler,String mark,User mUser){
         super();
         this._id=_id;
         this.money=money;
@@ -28,14 +31,11 @@ public class Inaccount extends DataSupport {
         this.type=type;
         this.handler=handler;
         this.mark=mark;
+        this.mUser=mUser;
     }
 
     public int get_id() {
         return _id;
-    }
-
-    public void set_id(int _id) {
-        this._id = _id;
     }
 
     public double getMoney() {

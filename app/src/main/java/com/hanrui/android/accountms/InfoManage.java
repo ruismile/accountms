@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,9 +31,11 @@ import org.litepal.crud.DataSupport;
 
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.List;
 
 import model.Inaccount;
 import model.Outaccount;
+import model.User;
 
 public class InfoManage extends AppCompatActivity {
 
@@ -42,7 +45,7 @@ public class InfoManage extends AppCompatActivity {
     EditText txtMoney, txtHA, txtMark;
     Button btnTime, btnEdit, btnDel;
     String[] strInfos;
-    String strid, strType;
+    String strid, strType,accountId;
 
     private Date mDate = new Date();
 
@@ -67,8 +70,12 @@ public class InfoManage extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         strInfos = bundle.getStringArray("id");
         strid = strInfos[0];
+        accountId=strInfos[3];
+        
         final int num = Integer.parseInt(strid);
+        final int accountid=Integer.parseInt(accountId);
         strType = strInfos[1];
+        final String userName=strInfos[2];
         if (strType.equals("btnininfo")) {
             tvtitle.setText("收入管理");
             mTextView1.setText("付款方:");
@@ -77,7 +84,7 @@ public class InfoManage extends AppCompatActivity {
             //type点击事件
             typeClick(popContents);
             
-            Inaccount inaccount = DataSupport.find(Inaccount.class, num);
+            Inaccount inaccount = DataSupport.find(Inaccount.class, accountid);
 
             Double money=inaccount.getMoney();
             DecimalFormat format = new DecimalFormat("#0.00");
@@ -96,7 +103,7 @@ public class InfoManage extends AppCompatActivity {
             //type点击事件
             typeClick(popContents);
             
-            Outaccount outaccount = DataSupport.find(Outaccount.class, num);
+            Outaccount outaccount = DataSupport.find(Outaccount.class, accountid);
 
             Double money=outaccount.getMoney();
             DecimalFormat format = new DecimalFormat("#0.00");
@@ -120,7 +127,7 @@ public class InfoManage extends AppCompatActivity {
         });
 
 
-        //为修改按钮设置监听
+        //为"修改按钮"设置监听
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,13 +142,25 @@ public class InfoManage extends AppCompatActivity {
                         boolean isNum = strMoney.matches("^[+]?\\d+(\\.\\d+)?$");
                         if (strType.equals("btnininfo")) {
                             if (isNum) {
-                                Inaccount inaccounts = DataSupport.find(Inaccount.class, num);
+                                Inaccount inaccounts = DataSupport.find(Inaccount.class, accountid);
                                 inaccounts.setMoney(Double.parseDouble(strMoney));
                                 inaccounts.setTime(btnTime.getText().toString());
                                 inaccounts.setType(mTextView.getText().toString());
                                 inaccounts.setHandler(txtHA.getText().toString());
                                 inaccounts.setMark(txtMark.getText().toString());
                                 inaccounts.save();
+                                //查询用户
+                                List<User> mUser= DataSupport.findAll(User.class);
+                                for(int i=0;i<mUser.size();i++) {
+                                    if (userName.equals(mUser.get(i).getUser_name())) {
+                                        int id = mUser.get(i).get_id();
+                                        User user = DataSupport.find(User.class, id, true);
+                                        List<Inaccount> list = user.getInaccountList();
+                                        list.add(num,inaccounts);
+                                        user.save();
+                                    }
+                                }
+                                
                                 Toast.makeText(InfoManage.this, "修改成功！", Toast.LENGTH_SHORT).show();
 
                                 Intent intent=new Intent();
@@ -151,14 +170,26 @@ public class InfoManage extends AppCompatActivity {
                             }
                         } else if (strType.equals("btnoutinfo")) {
                             if (isNum) {
-                                Outaccount outaccount = DataSupport.find(Outaccount.class, num);
+                               Outaccount outaccount = DataSupport.find(Outaccount.class, accountid);
                                 outaccount.setMoney(Double.parseDouble(txtMoney.getText().toString()));
                                 outaccount.setTime(btnTime.getText().toString());
-                                //outaccount.setType(spType.getSelectedItem().toString());
                                 outaccount.setType(mTextView.getText().toString());
                                 outaccount.setAddress(txtHA.getText().toString());
                                 outaccount.setMark(txtMark.getText().toString());
                                 outaccount.save();
+
+                                //找到用户
+                                List<User> mUser= DataSupport.findAll(User.class);
+                                for(int i=0;i<mUser.size();i++) {
+                                    if (userName.equals(mUser.get(i).getUser_name())) {
+                                        int id = mUser.get(i).get_id();
+                                        User user = DataSupport.find(User.class, id, true);
+                                        List<Outaccount> list = user.getOutaccountList();
+                                        list.add(num,outaccount);
+                                        user.save();
+                                    }
+                                }
+                                
                                 Toast.makeText(InfoManage.this, "修改成功！", Toast.LENGTH_SHORT).show();
 
                                 Intent intent=new Intent();
@@ -192,7 +223,7 @@ public class InfoManage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (strType.equals("btnininfo")) {
-                            DataSupport.delete(Inaccount.class, num);
+                            DataSupport.delete(Inaccount.class, accountid);
                             Toast.makeText(InfoManage.this, "删除成功！", Toast.LENGTH_SHORT).show();
 
                             Intent intent=new Intent();
@@ -200,7 +231,7 @@ public class InfoManage extends AppCompatActivity {
                             setResult(RESULT_OK,intent);
                             finish();
                         } else if (strType.equals("btnoutinfo")) {
-                            DataSupport.delete(Outaccount.class, num);
+                            DataSupport.delete(Outaccount.class, accountid);
                             Toast.makeText(InfoManage.this, "删除成功！", Toast.LENGTH_SHORT).show();
 
                             Intent intent=new Intent();

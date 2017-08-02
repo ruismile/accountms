@@ -11,15 +11,18 @@ import org.litepal.crud.DataSupport;
 public class Flag extends DataSupport{
     private int _id;  //便签编号
     private String flag; //存储便签信息
+    
+    private User mUser;
 
     public Flag(){
         super();
     }
 
-    public Flag(int _id,String flag){
+    public Flag(int _id,String flag,User mUser){
         super();
         this._id=_id;
         this.flag=flag;
+        this.mUser=mUser;
     }
 
     public int get_id() {

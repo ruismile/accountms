@@ -28,10 +28,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import model.Outaccount;
+import model.User;
 
 public class AddOutaccount extends AppCompatActivity {
 
@@ -51,6 +55,10 @@ public class AddOutaccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_outaccount);
+        
+        //获取用户名
+        Intent intent=getIntent();
+        final String userName=intent.getStringExtra("UserName");
         
         txtMoney=(EditText)findViewById(R.id.txtOutMoney);
         //txtMoney.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -96,6 +104,21 @@ public class AddOutaccount extends AppCompatActivity {
                         outaccount.setAddress(txtAddress.getText().toString());
                         outaccount.setMark(txtMark.getText().toString());
                         outaccount.save();
+                        
+                        //找到用户
+                        List<User>mUser= DataSupport.findAll(User.class);
+                        for(int i=0;i<mUser.size();i++){
+                            if(userName.equals(mUser.get(i).getUser_name())){
+                                int id=mUser.get(i).get_id();
+                                //查询用户
+                                User users=DataSupport.find(User.class,id,true);
+                                List<Outaccount>outaccounts=users.getOutaccountList();
+                                
+                                outaccounts.add(outaccount);
+                                users.save();
+                            }
+                        }
+                        
                         Toast.makeText(AddOutaccount.this, "数据添加成功！", Toast.LENGTH_SHORT).show();
                         finish();
                     }else{

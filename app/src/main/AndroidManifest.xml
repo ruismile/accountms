@@ -2,6 +2,8 @@
 <manifest package="com.hanrui.android.accountms"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -10,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme1">
         </activity>
         <activity android:name=".Login">
             <intent-filter>
@@ -31,7 +35,7 @@
         </activity>
         <activity android:name=".Sysset">
         </activity>
-        <activity android:name=".Accountflag">
+        <activity android:name=".AddFlag">
         </activity>
         <activity android:name=".FlagManage">
         </activity>
@@ -41,7 +45,11 @@
         </activity>
         <activity android:name=".OutTypeDIY">
         </activity>
-        <activity android:name=".Register">
+        <activity
+            android:name=".Register"
+            android:label="用户注册">
+        </activity>
+        <activity android:name=".MailSet">
         </activity>
     </application>
 

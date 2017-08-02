@@ -15,12 +15,15 @@ public class Outaccount extends DataSupport {
     private String type;     //类别
     private String address;   //地点
     private String mark;    //备注
+    
+    private User mUser;
 
     public Outaccount(){
         super();
     }
 
-    public Outaccount(int _id,double money,String time,String type,String address,String mark){
+    public Outaccount(int _id,double money,String time,String type,
+                      String address,String mark, User mUser){
         super();
         this._id=_id;
         this.money=money;
@@ -28,6 +31,7 @@ public class Outaccount extends DataSupport {
         this.type=type;
         this.address=address;
         this.mark=mark;
+        this.mUser=mUser;
     }
 
     public int get_id() {

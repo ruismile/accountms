@@ -117,6 +117,7 @@
             android:layout_toRightOf="@id/tvInHandler"
             android:layout_below="@id/tvInType"
             android:layout_marginRight="8dp"
+            android:maxLines="1"
             android:background="@drawable/edit_bg"
             android:layout_alignBaseline="@id/tvInHandler"/>
 
