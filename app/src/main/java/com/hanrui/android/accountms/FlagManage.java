@@ -39,7 +39,7 @@ public class FlagManage extends AppCompatActivity {
         final String userName=strInfos[1];
         
         final int num=Integer.parseInt(strid);
-        int accountid=Integer.valueOf(accountId);
+        final int accountid=Integer.valueOf(accountId);
         
         final Flag flag= DataSupport.find(Flag.class,accountid);
         txtFlag.setText(flag.getFlag());
@@ -95,8 +95,11 @@ public class FlagManage extends AppCompatActivity {
                 dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DataSupport.delete(Flag.class, num);
+                        DataSupport.delete(Flag.class, accountid);
                         Toast.makeText(FlagManage.this, "〖便签数据〗删除成功！", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent();
+                        intent.putExtra("strType","btnflaginfo");
+                        setResult(RESULT_OK,intent);
                         finish();
                     }
                 });
@@ -117,6 +120,7 @@ public class FlagManage extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Intent intent=new Intent();
+        intent.putExtra("strType","btnflaginfo");
         setResult(RESULT_OK,intent);
     }
 }

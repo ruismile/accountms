@@ -77,7 +77,6 @@ public class Login extends AppCompatActivity {
                                 flag=true;
                                 break;
                             }else{
-                                
                                 editor=pref.edit();
                                 if(rememberPass.isChecked()){
                                     editor.putBoolean("remember_password",true);
@@ -93,8 +92,6 @@ public class Login extends AppCompatActivity {
                                 startActivity(intent);
                                 Toast.makeText(Login.this,"登录成功",Toast.LENGTH_SHORT).show();
                                 flag=true;
-                                txt_username.setText("");
-                                txt_password.setText("");
                                 break;
                             }
                         }

@@ -116,6 +116,8 @@ public class Showinfo extends AppCompatActivity {
                         ShowInfo(R.id.btnininfo,userName);
                     }else if(strType.equals("btnoutinfo")){
                         ShowInfo(R.id.btnoutinfo,userName);
+                    }else if(strType.equals("btnflaginfo")){
+                        ShowInfo(R.id.btnflaginfo,userName);
                     }
                 }
                 break;
