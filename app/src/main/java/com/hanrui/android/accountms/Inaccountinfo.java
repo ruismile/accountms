@@ -39,6 +39,8 @@ public class Inaccountinfo extends AppCompatActivity {
     
     private Map<Integer,Integer>mMap=new HashMap<>();
     
+    private TextView emptyView;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class Inaccountinfo extends AppCompatActivity {
         final String userName=intent.getStringExtra("UserName");
         
         lvinfo=(ListView)findViewById(R.id.lvinaccountinfo);  //获取布局文件中的ListView组件
+        emptyView=(TextView)findViewById(R.id.empty_view);
+        lvinfo.setEmptyView(emptyView);
         
         ShowInfo(userName);   //调用自定义方法显示收入信息
         

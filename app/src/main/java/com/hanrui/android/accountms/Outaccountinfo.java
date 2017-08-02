@@ -25,8 +25,9 @@ import model.User;
 
 public class Outaccountinfo extends AppCompatActivity {
     private static final String FLAG="id";//定义一个常量，用来作为请求码
-    ListView lvinfo;
-    String strType="";
+    private ListView lvinfo;
+    private String strType="";
+    private TextView emptyView;
 
     private List<Info>mInfoList=new ArrayList<>();
 
@@ -37,6 +38,9 @@ public class Outaccountinfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outaccountinfo);
         lvinfo=(ListView)findViewById(R.id.lvoutaccountinfo);
+        //listView为空时提示
+        emptyView=(TextView)findViewById(R.id.empty_view);
+        lvinfo.setEmptyView(emptyView);
 
         //获取用户名
         Intent intent=getIntent();

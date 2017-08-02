@@ -29,9 +29,10 @@ import model.User;
 public class Showinfo extends AppCompatActivity {
 
     public static final String FLAG="id";
-    ListView lvinfo;
-    Button btnininfo,btnoutinfo,btnflaginfo;
-    String strType="";//用来记录管理信息
+    private ListView lvinfo;
+    private Button btnininfo,btnoutinfo,btnflaginfo;
+    private String strType="";//用来记录管理信息
+    private TextView emptyView;
 
     private List<Info>mInInfoList=new ArrayList<>();
     private List<Info>mOutInfoList=new ArrayList<>();
@@ -50,6 +51,10 @@ public class Showinfo extends AppCompatActivity {
         btnininfo=(Button)findViewById(R.id.btnininfo);
         btnoutinfo=(Button)findViewById(R.id.btnoutinfo);
         btnflaginfo=(Button)findViewById(R.id.btnflaginfo);
+
+        //listView为空时显示
+        emptyView=(TextView)findViewById(R.id.empty_view);
+        lvinfo.setEmptyView(emptyView);
 
         //获取用户名
         Intent intent=getIntent();
